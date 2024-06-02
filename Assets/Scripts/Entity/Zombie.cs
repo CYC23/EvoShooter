@@ -23,12 +23,14 @@ public class Zombie : MonoBehaviour, IEntity {
         LocateTarget(0);
     }
     private void Update() {
-        // Rotate toward target
-        Vector2 targetDirection = _target.position - transform.position;
-        float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90;
-        Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, RotateSpeed * Time.deltaTime);
-
+        if (_target != null)
+        {
+            // Rotate toward target
+            Vector2 targetDirection = _target.position - transform.position;
+            float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90;
+            Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, RotateSpeed * Time.deltaTime);
+        }
     }
     private void FixedUpdate() {
         _rigidbody.AddForce(transform.up * MoveSpeed);

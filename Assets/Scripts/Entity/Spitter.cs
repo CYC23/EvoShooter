@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Spitter : MonoBehaviour, IEntity {
     // Basic status
@@ -38,35 +39,53 @@ public class Spitter : MonoBehaviour, IEntity {
         _distanceToStop = ViewDistance * 0.8f;
         _fireInterval = 1 / FireRate;
     }
+
+    [System.Obsolete]
     private void Start() {
 
         LocateTarget(0);
         _state = Estate.Wander;
     }
+
+    [System.Obsolete]
     private void Update() {
         _fireTimer -= Time.deltaTime;
         AwareAgent();
 
         Quaternion targetRotation = new();
-        if (_state == Estate.TargetFound) {
-            Shoot();
-            // Rotate toward target
-            Vector2 targetDirection = _target.position - transform.position;
-            float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90;
-            targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        }
-        if (_state == Estate.Wander) {
-            _wanderDirectionChangeTimer -= Time.deltaTime;
-            if (_wanderDirectionChangeTimer <= 0) {
-                _wanderDirectionChangeTimer = _wanderDirectionChangeInterval;
-                ChangeWanderDirection();
+        if (_target != null)
+        {
+            // 修改點 1: 檢查 _target 是否為 null
+            if (_state == Estate.TargetFound)
+            {
+                Shoot();
+                // Rotate toward target
+                Vector2 targetDirection = _target.position - transform.position;
+                float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90;
+                targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
             }
-            targetRotation = Quaternion.LookRotation(Vector3.forward, _wanderDirection);
+            if (_state == Estate.Wander)
+            {
+                _wanderDirectionChangeTimer -= Time.deltaTime;
+                if (_wanderDirectionChangeTimer <= 0)
+                {
+                    _wanderDirectionChangeTimer = _wanderDirectionChangeInterval;
+                    ChangeWanderDirection();
+                }
+                targetRotation = Quaternion.LookRotation(Vector3.forward, _wanderDirection);
+            }
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, RotateSpeed * Time.deltaTime);
         }
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, RotateSpeed * Time.deltaTime);
+        else
+        {
+            // 修改點 2: 重新定位目標
+            LocateTarget(0);
+        }
     }
 
     private void Shoot() {
+        // 修改點 3: 檢查 _target 是否為 null
+        if (_target == null) return;
         float angle = Vector2.Angle(transform.up, _target.position - transform.position);
 
         if (_fireTimer < 0f && angle < 30) {
@@ -77,13 +96,48 @@ public class Spitter : MonoBehaviour, IEntity {
     }
     private void FixedUpdate() {
         // 進入射程不會再向Agent靠近
-        if ((_state == Estate.TargetFound && Vector2.Distance(transform.position, _target.position) > _distanceToStop)
+        // 修改點 4: 檢查 _target 是否為 null 並更新邏輯
+        if ((_state == Estate.TargetFound && _target != null && Vector2.Distance(transform.position, _target.position) > _distanceToStop)
             || _state == Estate.Wander) {
             _rigidbody.AddForce(transform.up * MoveSpeed);
         }
     }
+
+    /*
     protected void LocateTarget(int group) {
         _target = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+    */
+    [System.Obsolete]
+    protected void LocateTarget(int group)
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        if (currentSceneName == "HumanGame")
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                //Debug.Log("A");
+                _target = player.transform;
+            }
+            else
+            {
+                //Debug.Log("B");
+                _target = null;
+            }
+        }
+        else
+        {
+            GameObject agent = GameObject.FindGameObjectWithTag("Agent");
+            if (agent != null)
+            {
+                _target = agent.transform;
+            }
+            else
+            {
+                _target = null;
+            }
+        }
     }
     public void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.CompareTag("Wall")) {
@@ -110,7 +164,7 @@ public class Spitter : MonoBehaviour, IEntity {
         _rigidbody.AddForce(direction * strength, ForceMode2D.Impulse);
     }
     protected void AwareAgent() {
-        if (Vector2.Distance(transform.position, _target.position) < ViewDistance) {
+        if (_target != null && Vector2.Distance(transform.position, _target.position) < ViewDistance) {
             _state = Estate.TargetFound;
         }
         else {

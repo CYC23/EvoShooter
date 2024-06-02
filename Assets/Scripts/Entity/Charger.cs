@@ -1,6 +1,7 @@
 
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Charger : MonoBehaviour, IEntity {
     // Basic status
@@ -50,7 +51,7 @@ public class Charger : MonoBehaviour, IEntity {
         AwareAgent();
 
         Quaternion targetRotation = new();
-        if (_state == Estate.TargetFound) {
+        if (_target != null && _state == Estate.TargetFound) {
             Charge();
             // Rotate toward target
             Vector2 targetDirection = _target.position - transform.position;
@@ -128,7 +129,7 @@ public class Charger : MonoBehaviour, IEntity {
         _rigidbody.velocity = Vector2.zero;
     }
     protected void AwareAgent() {
-        if (Vector2.Distance(transform.position, _target.position) < ViewDistance) {
+        if (_target != null && Vector2.Distance(transform.position, _target.position) < ViewDistance) {
             _state = Estate.TargetFound;
         }
         else {

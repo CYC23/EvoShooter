@@ -1,7 +1,8 @@
 using System.IO;
 using UnityEngine;
 public static class SystemIO {
-    public static readonly string SAVE_FOLDER = Path.Combine(Application.persistentDataPath, "saves");
+    //public static readonly string SAVE_FOLDER = Path.Combine(Application.persistentDataPath, "saves");
+    public static readonly string SAVE_FOLDER = Path.Combine(Application.dataPath, "../saves");
     public static readonly string FILE_EXTENSION = ".json";
 
     public static void Initialize() {

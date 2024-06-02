@@ -14,6 +14,8 @@ public class HumanPlaySceneManager : MonoBehaviour {
     public int score;
     public GameStates GameState;
     public SaveData data;
+
+    private int _Currentscore;
     private void Awake() {
         manager = this;
         SystemIO.Initialize();
@@ -27,8 +29,13 @@ public class HumanPlaySceneManager : MonoBehaviour {
     private void Start() {
         GameState = GameStates.Running;
     }
-    public void GameOver() {
+    private void Update()
+    {
 
+        //Debug.Log(manager);
+    }
+    public void GameOver() {
+        GameState = GameStates.End;
         gameOverScreen.SetActive(true);
         scoreText.text = $"Score: {score}";
         SystemIO.SaveHighscore(data, score);
@@ -42,6 +49,7 @@ public class HumanPlaySceneManager : MonoBehaviour {
     }
     public void IncreaseScore(int amount) {
         score += amount;
+        _Currentscore = score;
     }
 
 }

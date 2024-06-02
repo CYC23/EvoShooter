@@ -1651,6 +1651,7 @@ MonoBehaviour:
   GameState: 0
   data:
     highScore: 0
+  countdownTimer: {fileID: 0}
 --- !u!4 &948178036
 Transform:
   m_ObjectHideFlags: 0

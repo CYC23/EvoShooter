@@ -34,7 +34,7 @@ public class Tank : MonoBehaviour, IEntity {
     private void Update() {
         AwareAgent();
         Quaternion targetRotation = new();
-        if (_state == Estate.TargetFound) {
+        if (_target != null && _state == Estate.TargetFound) {
             Vector2 targetDirection = _target.position - transform.position;
             float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90;
             targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
@@ -88,7 +88,7 @@ public class Tank : MonoBehaviour, IEntity {
     }
 
     protected void AwareAgent() {
-        if (Vector2.Distance(transform.position, _target.position) < ViewDistance) {
+        if (_target != null && Vector2.Distance(transform.position, _target.position) < ViewDistance) {
             _state = Estate.TargetFound;
         }
         else {

@@ -185,15 +185,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed425a6daca5135418764ee3d263fd7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthPoint: 100
-  AttackPoint: 10
-  FireRate: 2
-  MagazineSize: 10
-  MoveSpeed: 10
-  RotateSpeed: 60
-  ViewDistance: 10
-  CurrentHP: 0
-  bulletPrefab: {fileID: 525556104829182299, guid: 1cbfe2046c5150349ab09e404af6d681, type: 3}
+  gHealthPoint: 100
+  gAttackPoint: 10
+  gMoveSpeed: 15
+  gRotateSpeed: 60
+  gFireRate: 2
+  gBulletSpeed: 10
+  gMagazineSize: 10
+  gViewDistance: 10
+  _CurrentHP: 0
+  bulletPrefab: {fileID: 439943050817960331, guid: 1cbfe2046c5150349ab09e404af6d681, type: 3}
   gunBarrel: {fileID: 7652657765033211419}
 --- !u!58 &5221899390116774277
 CircleCollider2D:
