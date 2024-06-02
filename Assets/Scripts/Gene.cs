@@ -25,6 +25,7 @@ public class Gene : MonoBehaviour
     public static double mutationStrength;
     static System.Random rand = new System.Random();
     public static int limitation;
+    public static int generation;
 
 
     public void Loading()
@@ -57,6 +58,7 @@ public class Gene : MonoBehaviour
     {
         limitation = 80;
         mutationStrength = 5;
+        generation = 100;
         Loading();
         
         Debug.Log(string.Format("limitation: {0}, mutationStrength: {1}", limitation, mutationStrength));

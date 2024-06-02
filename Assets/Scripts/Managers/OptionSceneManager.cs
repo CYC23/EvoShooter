@@ -12,6 +12,15 @@ public class OptionSceneManager : MonoBehaviour {
     public TMP_InputField Agent_RotateSpeed;
     public TMP_InputField Agent_ViewDistance;
     public TMP_InputField Agent_BulletSpeed;
+    // Agent add
+    public TMP_InputField Agent_add_HealthPoint;
+    public TMP_InputField Agent_add_AttackPoint;
+    public TMP_InputField Agent_add_FireRate;
+    public TMP_InputField Agent_add_MagazineSize;
+    public TMP_InputField Agent_add_MoveSpeed;
+    public TMP_InputField Agent_add_RotateSpeed;
+    public TMP_InputField Agent_add_ViewDistance;
+    public TMP_InputField Agent_add_BulletSpeed;
     // Ability Ratio
     public TMP_InputField Ability_HealthPoint;
     public TMP_InputField Ability_AttackPoint;
@@ -21,6 +30,15 @@ public class OptionSceneManager : MonoBehaviour {
     public TMP_InputField Ability_RotateSpeed;
     public TMP_InputField Ability_ViewDistance;
     public TMP_InputField Ability_BulletSpeed;
+    // Agent result
+    public TMP_InputField Agent_R_HealthPoint;
+    public TMP_InputField Agent_R_AttackPoint;
+    public TMP_InputField Agent_R_FireRate;
+    public TMP_InputField Agent_R_MagazineSize;
+    public TMP_InputField Agent_R_MoveSpeed;
+    public TMP_InputField Agent_R_RotateSpeed;
+    public TMP_InputField Agent_R_ViewDistance;
+    public TMP_InputField Agent_R_BulletSpeed;
     // Enemy Score
     // Spawn Rate
     public TMP_InputField Score_Zombie;
@@ -79,6 +97,15 @@ public class OptionSceneManager : MonoBehaviour {
         GameSettings.options.Agent_ViewDistance = float.Parse(Agent_ViewDistance.text);
         GameSettings.options.Agent_BulletSpeed = float.Parse(Agent_BulletSpeed.text);
 
+        GameSettings.options.Agent_add_HealthPoint = int.Parse(Agent_add_HealthPoint.text);
+        GameSettings.options.Agent_add_AttackPoint = int.Parse(Agent_add_AttackPoint.text);
+        GameSettings.options.Agent_add_FireRate = float.Parse(Agent_add_FireRate.text);
+        GameSettings.options.Agent_add_MagazineSize = int.Parse(Agent_add_MagazineSize.text);
+        GameSettings.options.Agent_add_MoveSpeed = float.Parse(Agent_add_MoveSpeed.text);
+        GameSettings.options.Agent_add_RotateSpeed = float.Parse(Agent_add_RotateSpeed.text);
+        GameSettings.options.Agent_add_ViewDistance = float.Parse(Agent_add_ViewDistance.text);
+        GameSettings.options.Agent_add_BulletSpeed = float.Parse(Agent_add_BulletSpeed.text);
+
         GameSettings.options.Ability_HealthPoint = int.Parse(Ability_HealthPoint.text);
         GameSettings.options.Ability_AttackPoint = int.Parse(Ability_AttackPoint.text);
         GameSettings.options.Ability_FireRate = float.Parse(Ability_FireRate.text);
@@ -87,6 +114,15 @@ public class OptionSceneManager : MonoBehaviour {
         GameSettings.options.Ability_RotateSpeed = float.Parse(Ability_RotateSpeed.text);
         GameSettings.options.Ability_ViewDistance = float.Parse(Ability_ViewDistance.text);
         GameSettings.options.Ability_BulletSpeed = float.Parse(Ability_BulletSpeed.text);
+
+        //GameSettings.options.Agent_R_HealthPoint = int.Parse(Agent_R_HealthPoint.text);
+        //GameSettings.options.Agent_R_AttackPoint = int.Parse(Agent_R_AttackPoint.text);
+        //GameSettings.options.Agent_R_FireRate = float.Parse(Agent_R_FireRate.text);
+        //GameSettings.options.Agent_R_MagazineSize = int.Parse(Agent_R_MagazineSize.text);
+        //GameSettings.options.Agent_R_MoveSpeed = float.Parse(Agent_R_MoveSpeed.text);
+        //GameSettings.options.Agent_R_RotateSpeed = float.Parse(Agent_R_RotateSpeed.text);
+        //GameSettings.options.Agent_R_ViewDistance = float.Parse(Agent_R_ViewDistance.text);
+        //GameSettings.options.Agent_R_BulletSpeed = float.Parse(Agent_R_BulletSpeed.text);
 
         GameSettings.options.SpawnRate_Zombie = int.Parse(SpawnRate_Zombie.text);
         GameSettings.options.SpawnRate_Spitter = int.Parse(SpawnRate_Spitter.text);
@@ -137,6 +173,15 @@ public class OptionSceneManager : MonoBehaviour {
         Agent_ViewDistance.text = GameSettings.options.Agent_ViewDistance.ToString();
         Agent_BulletSpeed.text = GameSettings.options.Agent_BulletSpeed.ToString();
 
+        Agent_add_HealthPoint.text = GameSettings.options.Agent_add_HealthPoint.ToString();
+        Agent_add_AttackPoint.text = GameSettings.options.Agent_add_AttackPoint.ToString();
+        Agent_add_FireRate.text = GameSettings.options.Agent_add_FireRate.ToString();
+        Agent_add_MagazineSize.text = GameSettings.options.Agent_add_MagazineSize.ToString();
+        Agent_add_MoveSpeed.text = GameSettings.options.Agent_add_MoveSpeed.ToString();
+        Agent_add_RotateSpeed.text = GameSettings.options.Agent_add_RotateSpeed.ToString();
+        Agent_add_ViewDistance.text = GameSettings.options.Agent_add_ViewDistance.ToString();
+        Agent_add_BulletSpeed.text = GameSettings.options.Agent_add_BulletSpeed.ToString();
+
         Ability_HealthPoint.text = GameSettings.options.Ability_HealthPoint.ToString();
         Ability_AttackPoint.text = GameSettings.options.Ability_AttackPoint.ToString();
         Ability_FireRate.text = GameSettings.options.Ability_FireRate.ToString();
@@ -145,6 +190,15 @@ public class OptionSceneManager : MonoBehaviour {
         Ability_RotateSpeed.text = GameSettings.options.Ability_RotateSpeed.ToString();
         Ability_ViewDistance.text = GameSettings.options.Ability_ViewDistance.ToString();
         Ability_BulletSpeed.text = GameSettings.options.Ability_BulletSpeed.ToString();
+
+        Agent_R_HealthPoint.text = GameSettings.options.Agent_R_HealthPoint.ToString();
+        Agent_R_AttackPoint.text = GameSettings.options.Agent_R_AttackPoint.ToString();
+        Agent_R_FireRate.text = GameSettings.options.Agent_R_FireRate.ToString();
+        Agent_R_MagazineSize.text = GameSettings.options.Agent_R_MagazineSize.ToString();
+        Agent_R_MoveSpeed.text = GameSettings.options.Agent_R_MoveSpeed.ToString();
+        Agent_R_RotateSpeed.text = GameSettings.options.Agent_R_RotateSpeed.ToString();
+        Agent_R_ViewDistance.text = GameSettings.options.Agent_R_ViewDistance.ToString();
+        Agent_R_BulletSpeed.text = GameSettings.options.Agent_R_BulletSpeed.ToString();
 
         SpawnRate_Zombie.text = GameSettings.options.SpawnRate_Zombie.ToString();
         SpawnRate_Tank.text = GameSettings.options.SpawnRate_Tank.ToString();

@@ -9,6 +9,15 @@ public class SettingData {
     public float Agent_BulletSpeed; // new 
     public int Agent_MagazineSize;
     public float Agent_ViewDistance;
+    // Agent add
+    public int Agent_add_HealthPoint;
+    public int Agent_add_AttackPoint;
+    public float Agent_add_MoveSpeed;
+    public float Agent_add_RotateSpeed;
+    public float Agent_add_FireRate;
+    public float Agent_add_BulletSpeed; // new 
+    public int Agent_add_MagazineSize;
+    public float Agent_add_ViewDistance;
     // Ability ratio
     public int Ability_HealthPoint;
     public int Ability_AttackPoint;
@@ -18,7 +27,15 @@ public class SettingData {
     public float Ability_BulletSpeed; // new 
     public int Ability_MagazineSize;
     public float Ability_ViewDistance;
-
+    // Agemt result 
+    public int Agent_R_HealthPoint;
+    public int Agent_R_AttackPoint;
+    public float Agent_R_MoveSpeed;
+    public float Agent_R_RotateSpeed;
+    public float Agent_R_FireRate;
+    public float Agent_R_BulletSpeed; // new 
+    public int Agent_R_MagazineSize;
+    public float Agent_R_ViewDistance;
     // Spawn Rate
     public int SpawnRate_Zombie;
     public int SpawnRate_Tank;

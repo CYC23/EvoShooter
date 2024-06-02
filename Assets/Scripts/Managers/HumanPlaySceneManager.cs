@@ -14,6 +14,7 @@ public class HumanPlaySceneManager : MonoBehaviour {
     public int score;
     public GameStates GameState;
     public SaveData data;
+    public CountdownTimer GameTime;
 
     private int _Currentscore;
     private void Awake() {
@@ -28,10 +29,16 @@ public class HumanPlaySceneManager : MonoBehaviour {
     }
     private void Start() {
         GameState = GameStates.Running;
+        //GameTime.Start();
     }
     private void Update()
     {
-
+        
+        if(GameTime.TimerState == CountdownTimer.States.Stop)
+        {
+            GameOver();
+        }
+        
         //Debug.Log(manager);
     }
     public void GameOver() {
