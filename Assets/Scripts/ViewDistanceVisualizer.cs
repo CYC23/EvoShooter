@@ -13,6 +13,10 @@ public class ViewDistanceVisualizer : MonoBehaviour {
         else if (TryGetComponent<Charger>(out var charger)) {
             radius = charger.ViewDistance;
         }
+        else if (TryGetComponent<Charger>(out var agent))
+        {
+            radius = agent.ViewDistance;
+        }
     }
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;

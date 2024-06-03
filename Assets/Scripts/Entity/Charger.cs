@@ -1,9 +1,10 @@
-
+ï»¿
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Charger : MonoBehaviour, IEntity {
+public class Charger : MonoBehaviour, IEntity
+{
     // Basic status
     [SerializeField] Estate _state;
     public int HealthPoint;
@@ -26,10 +27,11 @@ public class Charger : MonoBehaviour, IEntity {
     private Vector2 _wanderDirection;
     [SerializeField] private float _wanderDirectionChangeInterval = 6f;
     private float _wanderDirectionChangeTimer;
+    private string currentSceneName;
 
-    private void Awake() {
+    private void Awake()
+    {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _CurrentHP = HealthPoint;
         HealthPoint = GameSettings.options.Charger_HealthPoint;
         AttackPoint = GameSettings.options.Charger_AttackPoint;
         MoveSpeed = GameSettings.options.Charger_MoveSpeed;
@@ -38,29 +40,39 @@ public class Charger : MonoBehaviour, IEntity {
         ViewDistance = GameSettings.options.Charger_ViewDistance;
         FireRate = GameSettings.options.Charger_FireRate;
 
+        _CurrentHP = HealthPoint;
         _distanceToStop = ViewDistance * 0.8f;
         _fireInterval = 1 / FireRate;
-    }
-    private void Start() {
 
+        // åœ¨ Awake æˆ– Start æ–¹æ³•ä¸­è°ƒç”¨ Unity API
+        currentSceneName = SceneManager.GetActiveScene().name;
+    }
+
+    private void Start()
+    {
         LocateTarget(0);
         _state = Estate.Wander;
     }
-    private void Update() {
+
+    private void Update()
+    {
         _fireTimer -= Time.deltaTime;
         AwareAgent();
 
-        Quaternion targetRotation = new();
-        if (_target != null && _state == Estate.TargetFound) {
+        Quaternion targetRotation = new Quaternion();
+        if (_target != null && _state == Estate.TargetFound)
+        {
             Charge();
             // Rotate toward target
             Vector2 targetDirection = _target.position - transform.position;
             float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90;
             targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
         }
-        if (_state == Estate.Wander) {
+        if (_state == Estate.Wander)
+        {
             _wanderDirectionChangeTimer -= Time.deltaTime;
-            if (_wanderDirectionChangeTimer <= 0) {
+            if (_wanderDirectionChangeTimer <= 0)
+            {
                 _wanderDirectionChangeTimer = _wanderDirectionChangeInterval;
                 ChangeWanderDirection();
             }
@@ -69,56 +81,95 @@ public class Charger : MonoBehaviour, IEntity {
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, RotateSpeed * Time.deltaTime);
     }
 
-    private void Charge() {
-
+    private void Charge()
+    {
         float angle = Vector2.Angle(transform.up, _target.position - transform.position);
 
-        if (_fireTimer < 0f && angle < 10) {
+        if (_fireTimer < 0f && angle < 10)
+        {
             _fireTimer = _fireInterval;
             _rigidbody.AddForce(transform.up * ChargeSpeed, ForceMode2D.Impulse);
         }
     }
-    private void OnCollisionEnter2D(Collision2D other) {
-        if (other.gameObject.CompareTag("Player")) {
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
             IEntity player = other.gameObject.GetComponent<IEntity>();
             player.TakeDamage(AttackPoint);
             player.KnockBack(transform.up, 16);
         }
-        else if (other.gameObject.CompareTag("Wall")) {
+        else if (other.gameObject.CompareTag("Agent"))
+        {
+            IEntity agent = other.gameObject.GetComponent<IEntity>();
+            agent.TakeDamage(AttackPoint);
+            agent.KnockBack(transform.up, 16);
+        }
+        else if (other.gameObject.CompareTag("Wall"))
+        {
             TurnBack();
         }
     }
-    private void FixedUpdate() {
-        // ¶i¤J®gµ{¤£·|¦A¦VAgent¾aªñ
+
+    private void FixedUpdate()
+    {
+        // é€²å…¥å°„ç¨‹ä¸æœƒå†å‘Agenté è¿‘
         if ((_state == Estate.TargetFound && Vector2.Distance(transform.position, _target.position) > _distanceToStop)
-            || _state == Estate.Wander) {
+            || _state == Estate.Wander)
+        {
             _rigidbody.AddForce(transform.up * MoveSpeed);
         }
     }
-    protected void LocateTarget(int group) {
-        _target = GameObject.FindGameObjectWithTag("Player").transform;
-    }
 
-    public void TakeDamage(int amount) {
-        _CurrentHP -= amount;
-        if (_CurrentHP < 0) {
-            Destroy(gameObject);
-            int score = GameSettings.options.Score_Spitter;
-            HumanPlaySceneManager.manager.IncreaseScore(score);
+    protected void LocateTarget(int group)
+    {
+        if (currentSceneName == "HumanGame")
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            _target = player != null ? player.transform : null;
+        }
+        else
+        {
+            GameObject agent = GameObject.FindGameObjectWithTag("Agent");
+            _target = agent != null ? agent.transform : null;
         }
     }
 
-    public void TakeHeal(int amount) {
+    public void TakeDamage(int amount)
+    {
+        _CurrentHP -= amount;
+        if (_CurrentHP < 0)
+        {
+            Destroy(gameObject);
+            int score = GameSettings.options.Score_Spitter;
+            if (currentSceneName == "HumanGame")
+            {
+                HumanPlaySceneManager.manager.IncreaseScore(score);
+            }
+            else
+            {
+                AgentPlaySceneManager.manager.IncreaseScore(score);
+            }
+        }
+    }
+
+    public void TakeHeal(int amount)
+    {
         _CurrentHP += amount;
-        if (_CurrentHP > HealthPoint) {
+        if (_CurrentHP > HealthPoint)
+        {
             _CurrentHP = HealthPoint;
         }
     }
 
-    public void KnockBack(Vector2 direction, float strength) {
+    public void KnockBack(Vector2 direction, float strength)
+    {
         _rigidbody.AddForce(direction * strength, ForceMode2D.Impulse);
     }
-    private void TurnBack() {
+
+    private void TurnBack()
+    {
         // Reverse direction by rotating 180 degrees
         transform.Rotate(0f, 0f, 180f);
 
@@ -128,16 +179,23 @@ public class Charger : MonoBehaviour, IEntity {
         // Reset any forces applied during charge
         _rigidbody.velocity = Vector2.zero;
     }
-    protected void AwareAgent() {
-        if (_target != null && Vector2.Distance(transform.position, _target.position) < ViewDistance) {
+
+    protected void AwareAgent()
+    {
+        if (_target != null && Vector2.Distance(transform.position, _target.position) < ViewDistance)
+        {
             _state = Estate.TargetFound;
         }
-        else {
+        else
+        {
             _state = Estate.Wander;
         }
     }
-    protected void ChangeWanderDirection() {
+
+    protected void ChangeWanderDirection()
+    {
         float angle = Random.Range(0, 360) * Mathf.Deg2Rad;
         _wanderDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
     }
 }
+

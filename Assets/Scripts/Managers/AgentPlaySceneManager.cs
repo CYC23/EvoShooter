@@ -2,12 +2,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class HumanPlaySceneManager : MonoBehaviour {
+public class AgentPlaySceneManager : MonoBehaviour {
 
     public enum GameStates {
         Pause, Running, End
     }
-    public static HumanPlaySceneManager manager;
+    public static AgentPlaySceneManager manager;
     public GameObject gameOverScreen;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highScoreText;

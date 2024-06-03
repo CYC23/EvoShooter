@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IEntity {
 
@@ -22,6 +23,8 @@ public class Player : MonoBehaviour, IEntity {
     private float _fireTimer;
     private float _fireInterval;
     private Rigidbody2D _rigidbody;
+
+    private string currentSceneName;
 
     private void Awake() {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -62,6 +65,7 @@ public class Player : MonoBehaviour, IEntity {
         _CurrentHP -= amount;
         if (_CurrentHP < 0) {
             Destroy(gameObject);
+            _CurrentHP = 0;
             HumanPlaySceneManager.manager.GameOver();
         }
     }

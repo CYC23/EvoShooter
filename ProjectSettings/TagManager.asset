@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Wall
   - EnemyBullet
+  - Agent
   layers:
   - Default
   - TransparentFX

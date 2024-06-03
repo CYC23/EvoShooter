@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 public static class SystemIO {
     //public static readonly string SAVE_FOLDER = Path.Combine(Application.persistentDataPath, "saves");
     public static readonly string SAVE_FOLDER = Path.Combine(Application.dataPath, "../saves");
     public static readonly string FILE_EXTENSION = ".json";
+    private static List<string> jsonDataList = new List<string>();
 
     public static void Initialize() {
         if (!Directory.Exists(SAVE_FOLDER)) Directory.CreateDirectory(SAVE_FOLDER);
@@ -34,6 +36,12 @@ public static class SystemIO {
             string saveData = JsonUtility.ToJson(data);
             Save("highscore", saveData);
         }
+    }
+
+    public static void SaveExpe(SaveData data)
+    {
+        
+        //data.exData.Add(data.generation)
     }
 
 
