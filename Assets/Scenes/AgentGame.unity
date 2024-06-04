@@ -2794,7 +2794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f49fcf572e252498171be96512656e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeRemaining: 30
+  timeRemaining: 60
   countdownText: {fileID: 337856347}
   TimerState: 0
 --- !u!4 &1888146371

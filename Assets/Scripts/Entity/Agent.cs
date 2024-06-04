@@ -86,7 +86,7 @@ public class Agent : MonoBehaviour , IEntity
         }
         else
         {
-            LocateTarget(0);
+            
             _wanderDirectionChangeTimer -= Time.deltaTime;
             if (_wanderDirectionChangeTimer <= 0)
             {
@@ -99,14 +99,24 @@ public class Agent : MonoBehaviour , IEntity
 
     private void FixedUpdate()
     {
-        _rigidbody.AddForce(transform.up * gMoveSpeed);
+        LocateTarget(0);
+        if (_target != null)
+        {
+            _rigidbody.AddForce(transform.up * -gMoveSpeed);
+        }
+        else
+        {
+            _rigidbody.AddForce(transform.up * gMoveSpeed);
+        }
+
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
          if (other.gameObject.CompareTag("Wall"))
         {
-            TurnBack();
+            _rigidbody.AddForce(transform.up * -gMoveSpeed);
+            //TurnBack();
         }
     }
 
@@ -153,7 +163,7 @@ public class Agent : MonoBehaviour , IEntity
         // 获取当前Agent的位置
         Vector2 currentPosition = transform.position;
 
-        // 在gViewDistance范围内找到所有具有"Spitter", "Tank", "Charger", "Zombie"标签的对象
+        // 在gViewDistance范围内找到所有具有"Enemy"标签的对象
         Collider2D[] colliders = Physics2D.OverlapCircleAll(currentPosition, gViewDistance);
         GameObject closestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
@@ -164,10 +174,10 @@ public class Agent : MonoBehaviour , IEntity
             GameObject obj = collider.gameObject;
 
             // 排除自身的碰撞体
-            if (obj == this.gameObject)
-            {
-                continue;
-            }
+            //if (obj == this.gameObject)
+            //{
+            //    continue;
+            //}
 
             string tag = obj.tag;
             Debug.Log(tag);
